@@ -95,7 +95,7 @@
       };
 
       document.addEventListener("keydown", (e) => {
-          //   shortcut to move to mini player
+        //   shortcut to move to mini player
         if (e.key === "m") {
           moveToMiniPlayer();
         }
@@ -121,6 +121,25 @@
           }
         }
       });
+
+      // // buffer health checker - constantly check if video is buffering
+      // function healthChecker() {
+      //   let isVideoBuffering = myVideo.readyState < 4;
+      //   if (isVideoBuffering) {
+      //     console.log("video is buffering");
+      //   } else {
+      //     console.log("video is not buffering");
+      //   }
+      // }
+
+      // // after each 1 second, check if video is buffering
+      // setInterval(() => {
+      //   healthChecker();
+      // }, 1000);
+
+      myVideo.onwaiting = function () {
+        console.log("video is waiting");
+      };
     </script>
   </body>
 </html>
