@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Mini Player Video Test</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .my-full-screen-video {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-height: 90vh;
+        max-width: 90vw;
+      }
+      .mini-player-video {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background-color: oklch(2 3 186);
+      }
+      .mini-player-video[data-isMiniPlayerOn="false"] {
+        /* display: none; */
+        opacity: 0.1;
+      }
+      button {
+        position: fixed;
+        top: 0;
+        right: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="my-full-screen-video">
+      <video
+        id="my-video"
+        class="video-js"
+        controls
+        preload="auto"
+        poster="https://gcdnb.pbrd.co/images/evTZHDZAtLYi.png?o=1"
+        data-setup="{}"
+      >
+        <source
+          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          type="video/webm"
+        />
+      </video>
+    </div>
+
+    <div class="mini-player-video"></div>
+    <!-- <button
+      onclick="moveToMiniPlayer()"
+    >
+      Move to mini player video
+    </button> -->
+
+    <script>
+      const myVideo = document.querySelector("video");
+      myVideo.play();
+      setTimeout(() => {
+        myVideo.pause();
+      }, 100);
+
+      const moveToMiniPlayer = () => {
+        const video = document.querySelector("video");
+        const miniPlayer = document.querySelector(".mini-player-video");
+        const myFullScreenVideo = document.querySelector(
+          ".my-full-screen-video"
+        );
+        const isVideoInMiniPlayer = miniPlayer.getAttribute(
+          "data-isMiniPlayerOn"
+        );
+
+        if (isVideoInMiniPlayer === "true") {
+          myFullScreenVideo.appendChild(video);
+          miniPlayer.setAttribute("data-isMiniPlayerOn", false);
+        } else {
+          miniPlayer.appendChild(video);
+          miniPlayer.setAttribute("data-isMiniPlayerOn", true);
+        }
+      };
+
+      document.addEventListener("keydown", (e) => {
+          //   shortcut to move to mini player
+        if (e.key === "m") {
+          moveToMiniPlayer();
+        }
+        //  shortcut to play/pause
+        if (e.key === " ") {
+          const video = document.querySelector("video");
+          const isVideoPaused = video.paused;
+          if (isVideoPaused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        }
+
+        // shortcut to enter/exit full screen
+        if (e.key === "f") {
+          const video = document.querySelector("video");
+          const isVideoInFullScreen = document.fullscreenElement;
+          if (isVideoInFullScreen) {
+            document.exitFullscreen();
+          } else {
+            video.requestFullscreen();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
