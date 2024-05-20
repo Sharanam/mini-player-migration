@@ -122,6 +122,23 @@
         }
       });
 
+      async function getBufferLength(video) {
+        const mediaSource = video.srcObject;
+        let bufferSeconds = 0;
+        const buffer = mediaSource?.sourceBuffers[0];
+        const bufferLength = buffer.buffered.length;
+
+        bufferSeconds =
+          buffer.buffered.end(bufferLength - 1) -
+          buffer.buffered.start(bufferLength - 1);
+
+        return bufferSeconds;
+      }
+      setTimeout(async () => {
+        const res = await getBufferLength(myVideo);
+        console.log(res);
+      }, 100);
+
       // // buffer health checker - constantly check if video is buffering
       // function healthChecker() {
       //   let isVideoBuffering = myVideo.readyState < 4;
